@@ -93,7 +93,6 @@ const RoadMap = {
         },
         machine: [],
     },
-
     "ST09-ST10": {
         spot: {
             ST09: {},
@@ -279,7 +278,7 @@ const RoadMap = {
     },
     "ST26-ST27": {
         spot: {
-            ST25: {},
+            ST26: {},
             ST26_ST27_01: {},
             ST26_ST27_02: {},
             ST26_ST27_03: {},
@@ -289,7 +288,7 @@ const RoadMap = {
             ST26_ST27_07: {},
             ST26_ST27_08: {},
             ST26_ST27_09: {},
-            ST26: {},
+            ST27: {},
         },
         machine: [],
     },

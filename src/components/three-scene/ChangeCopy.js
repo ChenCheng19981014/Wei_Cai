@@ -175,7 +175,11 @@ class MoveMachine {
   isCloneFirstMap = {}
 
   // 生成的路线
-  savedRoutes = []
+  savedRoutes = [];
+
+  lastLength = null;
+
+  moveSpeed = 0.01;
 
   init() {
     // 移动键
