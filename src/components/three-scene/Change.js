@@ -110,8 +110,11 @@ class MoveMachine {
   // 生成的路线
   savedRoutes = [];
 
-  speed = 16;
+  firstLength = null;
 
+  isFrist = false;
+
+  moveSpeed = 0.01
 
   init() {
     // 设置路线
@@ -356,12 +359,23 @@ class MoveMachine {
 
     const length = curve.getLength();
 
-    const proportion = (length / this.lastLength) || 1;
+    if (!this.isFrist) {
+      this.isFrist = true;
+      this.firstLength = length;
+    }
+
+    console.log(this.firstLength, 'this.firstLength');
+
+    const proportion = length / this.firstLength || 1;
+
+    const bl = proportion * this.moveSpeed
 
     // 从上一个判断她的速度
-    this.moveSpeed = 0.01 / proportion;
+    this.moveSpeed = bl
 
-    console.log(this.moveSpeed, this.lastLength, 'moveSpeed');
+    console.log(this.moveSpeed, bl, length, '比例', proportion, 'moveSpeed');
+
+    // console.log(length, this.lastLength, proportion, this.moveSpeed, 'moveSpeed');
 
     this.lastLength = length;
 
