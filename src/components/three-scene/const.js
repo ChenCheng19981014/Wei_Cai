@@ -326,9 +326,10 @@ const RoadMap = {
     "ST29-ST31": {
         spot: {
             ST29: {},
-            ST29_ST31_01: {},
-            ST29_ST31_02: {},
+            ST29_ST31_04: {},
             ST29_ST31_03: {},
+            ST29_ST31_02: {},
+            ST29_ST31_01: {},
             ST31: {},
         },
         machine: [],
@@ -553,19 +554,10 @@ const RoadMap = {
     },
     "ST44-ST45": {
         spot: {
-            ST43: {},
+            ST44: {},
             ST44_ST45_01: {},
             ST44_ST45_02: {},
-            ST44: {},
-        },
-        machine: [],
-    },
-    "ST44-ST45": {
-        spot: {
-            ST43: {},
-            ST44_ST45_01: {},
-            ST44_ST45_02: {},
-            ST44: {},
+            ST45: {},
         },
         machine: [],
     },
@@ -582,6 +574,7 @@ const RoadMap = {
         },
         machine: [],
     },
+
     "ST47-ST48": {
         spot: {
             ST47: {},
@@ -711,9 +704,9 @@ const RoadMap = {
     },
     "ST46-ST59": {
         spot: {
-            ST45: {},
-            ST58_ST59_08: {},
-            ST58_ST59_09: {},
+            ST46: {},
+            ST46_ST59_01: {},
+            ST46_ST59_02: {},
             ST59: {},
         },
         machine: [],
