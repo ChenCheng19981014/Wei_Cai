@@ -102,7 +102,9 @@ export default {
     },
 
     // 测试模型移动
-    testMahcineMove() {},
+    testMahcineMove() {
+      this.change.moveMachine.testMahcineMove();
+    },
 
     // 打印点击到的模型
     logClickModel(model) {
