@@ -367,6 +367,8 @@ class MoveMachine {
 
     let dySpeed = this.firstLength / curve.getLength() * speed;
 
+    console.log(dySpeed, this.firstLength, '第一个', length, 'dySpeed');
+
     model.timer = setInterval(() => {
 
       // 模型的朝向
@@ -385,6 +387,7 @@ class MoveMachine {
       if (percent >= newNum) {
         // 到达一定的值就清空定时器
         // 当走完过后复位原点
+        // console.log("清空");
         model.timer && clearInterval(model.timer);
 
         model.timer = null;
