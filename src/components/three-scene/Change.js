@@ -86,7 +86,12 @@ function Change(runScene) {
   this.dispose = () => runScene.dispose();
 }
 
-// 移动模型模块
+/**
+ * 移动模型模块
+ * 问题一 拿不到进度 有的传感器之间间隔太大 就无法控制相对进度 可能下一秒或下一帧就可能进入到下一段传感器范围 会出现位置偏移 或极端闪现的问题
+ * 问题二 每一段传感器的间隔不一样 移动的时间也不相同 即调用的传入的数据接口周期频率也不同 否则也会造成设备无法无缝移动
+ * 问题三 穿模的问题一定会存在 不可避免 除非传入数据接口可以一定避免
+ */
 class MoveMachine {
   machine1 = null;
   machine2 = null;
@@ -133,15 +138,46 @@ class MoveMachine {
 
   // 临时测试机器移动
   async testMahcineMove() {
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id2", "ydj", "ST01-ST05"), this.setMove("id3", "ydj", "ST01-ST05") })
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST02-ST03"), this.setMove("id2", "ydj", "ST05-ST06"), this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST01-ST05") })
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id3", "ydj", "ST01-ST05") })
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST05-ST06") }, 2000)
+
+    await this.testMove(() => { this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
+
     await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09"), this.setMove("id2", "ydj", "ST08-ST09"), this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10"), this.setMove("id2", "ydj", "ST09-ST10"), this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11"), this.setMove("id2", "ydj", "ST10-ST11"), this.setMove('id3', 'ydj', "ST10-ST11") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12"), this.setMove("id2", "ydj", "ST11-ST12"), this.setMove('id3', 'ydj', "ST11-ST12") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13"), this.setMove("id2", "ydj", "ST12-ST13"), this.setMove('id3', 'ydj', "ST12-ST13") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST07-ST08") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10") }, 2000)
+
+    await this.testMove(() => { this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST08-ST09") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11") }, 2000)
+
+    await this.testMove(() => { this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST09-ST10") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12") }, 2000)
+
+    await this.testMove(() => { this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST10-ST11") }, 2000)
+
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13") }, 2000)
+
+    await this.testMove(() => { this.setMove("id2", "ydj", "ST11-ST12") }, 2000)
+
+
     await this.testMove(() => { this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
@@ -154,45 +190,78 @@ class MoveMachine {
     await this.testMove(() => { this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST25-ST26") }, 8000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST26-ST27") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST27-ST28") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST28-ST29") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST29-ST31") }, 8000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST31-ST32") }, 8000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST32-ST33") }, 8000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST33-ST34") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST34-ST35") }, 10000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST35-ST36") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST36-ST37") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST37-ST38") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST38-ST39") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST39-ST40") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST40-ST41") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST41-ST42") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST42-ST43") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST43-ST44") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST44-ST45") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST45-ST46") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST46-ST59") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST59-ST60") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST60-ST61") }, 25000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST61-ST62") }, 8000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST62-ST63") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST63-ST64") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST64-ST65") }, 25000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST65-ST66") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST66-ST67") }, 30000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST67-ST68") }, 20000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST68-ST69") }, 5000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST69-ST70") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST70-ST71") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST71-ST72") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST72-ST73") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST73-ST74") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST74-ST75") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST75-ST79") }, 3000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST79-ST01") }, 5000)
+
+
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09"), this.setMove("id2", "ydj", "ST08-ST09"), this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10"), this.setMove("id2", "ydj", "ST09-ST10"), this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11"), this.setMove("id2", "ydj", "ST10-ST11"), this.setMove('id3', 'ydj', "ST10-ST11") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12"), this.setMove("id2", "ydj", "ST11-ST12"), this.setMove('id3', 'ydj', "ST11-ST12") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13"), this.setMove("id2", "ydj", "ST12-ST13"), this.setMove('id3', 'ydj', "ST12-ST13") }, 2000)
+
+
+
+
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id2", "ydj", "ST01-ST05"), this.setMove("id3", "ydj", "ST01-ST05") })
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST02-ST03"), this.setMove("id2", "ydj", "ST05-ST06"), this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09"), this.setMove("id2", "ydj", "ST08-ST09"), this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10"), this.setMove("id2", "ydj", "ST09-ST10"), this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11"), this.setMove("id2", "ydj", "ST10-ST11"), this.setMove('id3', 'ydj', "ST10-ST11") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12"), this.setMove("id2", "ydj", "ST11-ST12"), this.setMove('id3', 'ydj', "ST11-ST12") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13"), this.setMove("id2", "ydj", "ST12-ST13"), this.setMove('id3', 'ydj', "ST12-ST13") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST16-ST17") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST17-ST18") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST18-ST19") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST19-ST20") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST20-ST21") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST21-ST22") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST25-ST26") }, 8000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST26-ST27") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST27-ST28") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST28-ST29") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST29-ST31") }, 8000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST31-ST32") }, 8000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST32-ST33") }, 8000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST33-ST34") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST34-ST35") }, 10000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST35-ST36") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST36-ST37") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST37-ST38") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST38-ST39") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST39-ST40") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST40-ST41") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST41-ST42") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST42-ST43") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST43-ST44") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST44-ST45") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST45-ST46") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST46-ST59") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST59-ST60") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST60-ST61") }, 25000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST61-ST62") }, 8000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST62-ST63") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST63-ST64") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST64-ST65") }, 25000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST65-ST66") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST66-ST67") }, 30000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST67-ST68") }, 20000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST68-ST69") }, 5000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST69-ST70") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST70-ST71") }, 2000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST71-ST72") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST72-ST73") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST73-ST74") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST74-ST75") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST75-ST79") }, 3000)
+    // await this.testMove(() => { this.setMove("id1", "ydj", "ST79-ST01") }, 5000)
   }
 
   // 测试使用
@@ -549,6 +618,8 @@ class Events {
     controls.removeEventListener("start", this.controlStart);
   }
 }
+
+
 
 export default Change;
 
