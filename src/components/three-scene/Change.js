@@ -59,9 +59,13 @@ function Change(runScene) {
 
     this.moveMachine.init();
 
-    // controls.maxPolarAngle = Math.PI / 2 - 0.2;
+    // 最小距离
+    controls.minDistance = 110;
+    // // 最大距离
+    controls.maxDistance = 12000;
 
-    // controls.screenSpacePanning = false;
+    controls.maxPolarAngle = Math.PI / 2 - 0.03;
+    controls.screenSpacePanning = false;
 
     // 入场动画
     t.events.cameraFoucs(
@@ -602,8 +606,42 @@ class Events {
     );
   };
 
-  controlStart = () => { };
-
+  controlStart = () => {
+    // 关闭其他动画
+    this.stopMove();
+    this.closeAnmia();
+  };
+  stopMove = () => {
+    let cameraPosition = camera.position;
+    let dis = cameraPosition.distanceTo({
+      x: -4643.506266677469,
+      y: 1272.526953431848,
+      z: 339.0845639528666
+    });
+    if (dis >= 10000) {
+      controls.enablePan = false;
+      // 1.5秒后恢复
+      Utils.getMacro(() => {
+        // 重新恢复至初始视角动静
+        t.runScene.modelEx.camAnima(
+          t.runScene.modelEx.getCamLocal(), {
+          cx: -5013.515237318247,
+          cy: 3245.588404416484,
+          cz: -8036.278141760255,
+          tx: -4681.286120950418,
+          ty: 288.1998663090785,
+          tz: -3353.178373424808,
+        },
+          1.5
+        );
+        // 可以进行右键移动
+        controls.enablePan = true;
+      }, 1500);
+    } else {
+      // 可以进行右键移动
+      controls.enablePan = true;
+    }
+  };
   closeAnmia() {
     Object.values(this.closeAnimaAtStart).map(
       (item) =>

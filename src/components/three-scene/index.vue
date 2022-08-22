@@ -38,10 +38,10 @@ export default {
       const sceneKey = "202205311024313282651001202252";
 
       this.runScene = new RunScene({
-        path: "./assets/scene.glb",
-        // path:
-        //   "http://192.168.3.8:8080/file?path=project/linkpoint/&key=" +
-        //   sceneKey,
+        // path: "./assets/scene.glb",
+        path:
+          "http://192.168.3.8:8080/file?path=project/linkpoint/&key=" +
+          sceneKey,
         // path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
         rootDom: this.$refs["three-scene"],
         options: {
