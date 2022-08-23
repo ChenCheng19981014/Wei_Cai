@@ -64,7 +64,7 @@ function Change(runScene) {
     // // 最大距离
     controls.maxDistance = 12000;
 
-    controls.maxPolarAngle = Math.PI / 2 - 0.03;
+    controls.maxPolarAngle = Math.PI / 2 - 0.3;
     controls.screenSpacePanning = false;
 
     // 入场动画
@@ -355,7 +355,7 @@ class MoveMachine {
       machine.splice(index, 1);
     });
 
-    this.clearLine();
+    // this.clearLine();
   }
 
   // 添加模型至场景
@@ -483,7 +483,7 @@ class MoveMachine {
     // let cube = new THREE.Mesh(new THREE.BoxGeometry(100, 100, 100), new THREE.LineBasicMaterial({
     //   color: "#ff0000"
     // }));
-    // cube.scale.set(5, 5, 5)
+    // cube.scale.set(1, 1, 1)
 
     // pointsArr.map((i, _) => {
 
@@ -511,7 +511,6 @@ class MoveMachine {
     scene.add(line);
 
     line.visible = true;
-
     return { line, curve };
   }
 }
