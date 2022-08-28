@@ -29,19 +29,16 @@ export default {
   mounted() {
     // 加载场景
     this.loadScene();
-    // 打印点击的模型接口
-    bus.on("logClickModel", this.logClickModel);
   },
   methods: {
     // 加载场景
     loadScene() {
-      const sceneKey = "202205311024313282651001202252";
-
+      // const sceneKey = "202205311024313282651001202252";
       this.runScene = new RunScene({
-        // path: "./assets/scene.glb",
-        path:
-          "http://192.168.3.8:8080/file?path=project/linkpoint/&key=" +
-          sceneKey,
+        path: "./assets/scene.glb",
+        // path:
+        //   "http://192.168.3.8:8080/file?path=project/linkpoint/&key=" +
+        //   sceneKey,
         // path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
         rootDom: this.$refs["three-scene"],
         options: {
@@ -53,6 +50,9 @@ export default {
             //   open: true,
             //   IntervalTime: 16.6,
             // },
+          },
+          msg: {
+            show: true,
           },
           /**
             msg?: {
@@ -91,19 +91,15 @@ export default {
               render3?: boolean, = false
                */
         },
-      })
-        .on("modelLoaded", (models) => {
-          // console.log(models, "models");
-          // models[0].children.map((i) => {
-          //   i.visible = false;
-          // });
-        })
-        .on("complete", () => {});
-      this.change = new Change(this.runScene);
+      }).on("complete", () => {
+        console.log("场景加载结束");
+      });
+      // this.change = new Change(this.runScene);
     },
 
     // 测试模型移动
     testMahcineMove() {
+      console.log("执行");
       this.change.moveMachine.testMahcineMove();
     },
 
