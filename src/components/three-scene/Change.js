@@ -126,9 +126,7 @@ class MoveMachine {
   moveSpeed = 0.01
 
   init() {
-
     // t.runScene.modelEx.getModel('缩放层').visible = false;
-
 
     // 设置路线
     this.setRoadMap();
@@ -143,143 +141,175 @@ class MoveMachine {
   // 临时测试机器移动
   async testMahcineMove() {
 
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST01-ST05") })
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST01-ST05")
+    })
 
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id3", "ydj", "ST01-ST05") })
+    // await this.testMove(async () => { await this.setMove("id1", "ydj", "ST01-ST02"), await this.setMove("id3", "ydj", "ST01-ST05") })
 
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST05-ST06") }, 2000)
-
-    await this.testMove(() => { this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 4000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08") }, 5000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09") }, 5000)
-
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST07-ST08") }, 2000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10") }, 2000)
-
-    await this.testMove(() => { this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
-
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST08-ST09") }, 2000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11") }, 2000)
-
-    await this.testMove(() => { this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
-
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST09-ST10") }, 2000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12") }, 2000)
-
-    await this.testMove(() => { this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
-
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST10-ST11") }, 2000)
-
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13") }, 2000)
-
-    await this.testMove(() => { this.setMove("id2", "ydj", "ST11-ST12") }, 2000)
+    await this.testMove(async () => { await Promise.all([this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id3", "ydj", "ST01-ST05")]) })
 
 
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST16-ST17") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST17-ST18") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST18-ST19") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST19-ST20") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST20-ST21") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST21-ST22") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST05-ST06") }, 2000)
+
+    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
+
+    // await this.testMove(async () => { await this.setMove("id1", "ydj", "ST03-ST04"), await this.setMove("id2", "ydj", "ST06-ST07"), await this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
+
+    await this.testMove(async () => { await Promise.all([this.setMove("id1", "ydj", "ST03-ST04"), await this.setMove("id2", "ydj", "ST06-ST07"), await this.setMove('id3', 'ydj', "ST06-ST07")]) }, 2000)
 
 
-    //-----------------------------------------------
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST04-ST08") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST08-ST09") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST07-ST08") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST09-ST10") }, 2000)
+
+    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST08-ST09") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST10-ST11") }, 2000)
+
+    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST09-ST10") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST11-ST12") }, 2000)
+
+    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST10-ST11") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST12-ST13") }, 2000)
+
+    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST11-ST12") }, 2000)
 
 
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09"), this.setMove("id2", "ydj", "ST08-ST09"), this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10"), this.setMove("id2", "ydj", "ST09-ST10"), this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11"), this.setMove("id2", "ydj", "ST10-ST11"), this.setMove('id3', 'ydj', "ST10-ST11") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12"), this.setMove("id2", "ydj", "ST11-ST12"), this.setMove('id3', 'ydj', "ST11-ST12") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13"), this.setMove("id2", "ydj", "ST12-ST13"), this.setMove('id3', 'ydj', "ST12-ST13") }, 2000)
-
-
-
-
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id2", "ydj", "ST01-ST05"), this.setMove("id3", "ydj", "ST01-ST05") })
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST02-ST03"), this.setMove("id2", "ydj", "ST05-ST06"), this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09"), this.setMove("id2", "ydj", "ST08-ST09"), this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST09-ST10"), this.setMove("id2", "ydj", "ST09-ST10"), this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST10-ST11"), this.setMove("id2", "ydj", "ST10-ST11"), this.setMove('id3', 'ydj', "ST10-ST11") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST11-ST12"), this.setMove("id2", "ydj", "ST11-ST12"), this.setMove('id3', 'ydj', "ST11-ST12") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST12-ST13"), this.setMove("id2", "ydj", "ST12-ST13"), this.setMove('id3', 'ydj', "ST12-ST13") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST16-ST17") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST17-ST18") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST18-ST19") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST19-ST20") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST20-ST21") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST21-ST22") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST25-ST26") }, 8000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST26-ST27") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST27-ST28") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST28-ST29") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST29-ST31") }, 8000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST31-ST32") }, 8000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST32-ST33") }, 8000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST33-ST34") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST34-ST35") }, 10000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST35-ST36") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST36-ST37") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST37-ST38") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST38-ST39") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST39-ST40") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST40-ST41") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST41-ST42") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST42-ST43") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST43-ST44") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST44-ST45") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST45-ST46") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST46-ST59") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST59-ST60") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST60-ST61") }, 25000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST61-ST62") }, 8000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST62-ST63") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST63-ST64") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST64-ST65") }, 25000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST65-ST66") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST66-ST67") }, 30000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST67-ST68") }, 20000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST68-ST69") }, 5000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST69-ST70") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST70-ST71") }, 2000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST71-ST72") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST72-ST73") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST73-ST74") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST74-ST75") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST75-ST79") }, 3000)
-    // await this.testMove(() => { this.setMove("id1", "ydj", "ST79-ST01") }, 5000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST16-ST17") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST17-ST18") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST18-ST19") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST19-ST20") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST20-ST21") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST21-ST22") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
+    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
   }
 
   // 测试使用
   testMove(fn, time = 2000) {
     return new Promise((s) => {
-      let timer = setTimeout(() => {
-        fn && fn();
-        s() && timer && clearTimeout(timer);
-        console.log('走走~~~');
+      let timer = setTimeout(async () => {
+        await fn();
+        await s();
+        timer && clearTimeout(timer);
       }, time);
     })
+  }
+
+
+  // 开始行走
+  setMove(id, type, location) {
+
+    return new Promise((s) => {
+      // 刷新数据和线段
+      this.refreshData(id);
+
+      const model = this.addModel(id, type);
+      // 清除对应的定时器
+      this.clearTimer(model);
+      // 去除要走的线位置
+      let temporaryArray = [...this.roadMap[location]["spot"]];
+      // 存储  模型的位置
+      const savePosition = model.savePosition;
+
+      // 第一次必须要立刻进入路线
+      if (!this.isCloneFirstMap[id]) {
+        this.isCloneFirstMap[id] = id;
+      } else {
+        temporaryArray.unshift(
+          new THREE.Vector3(
+            (savePosition && savePosition.x) || model.position.x,
+            (savePosition && savePosition.y) || model.position.y,
+            (savePosition && savePosition.z) || model.position.z
+          )
+        );
+      }
+
+      const { curve } = this.getCurve(temporaryArray, true);
+
+      temporaryArray = [];
+
+      // 基本信息
+      const lineInfo = {
+        id,
+        model,
+        location,
+        curve,
+        isEnd: false
+      };
+
+      let mahcineInfo = this.setLine(lineInfo);
+
+      // 移动
+      this.move(mahcineInfo, s);
+    })
+  }
+
+
+  // 移动
+  move(mahcineInfo, s) {
+    let { model, num, curve, percent } = mahcineInfo;
+
+    let newNum = num == 1 ? 0.95 : 1 - 1 / num;
+
+    const length = curve.getLength();
+
+    let speed = 0.01;
+
+    if (!this.isFrist) {
+      this.isFrist = true;
+      this.firstLength = length;
+    }
+
+    let dySpeed = this.firstLength / curve.getLength() * speed;
+
+    model.timer = setInterval(() => {
+
+      // 模型的朝向
+      model.lookAt(curve.getPointAt(percent));
+      // 模型的位置
+      model.position.set(
+        curve.getPointAt(percent).x,
+        curve.getPointAt(percent).y,
+        curve.getPointAt(percent).z
+      );
+      // 模型的进度
+      percent += dySpeed;
+
+      model.savePosition = curve.getPointAt(percent);
+
+      // console.log(percent, 'percent');
+
+      if (percent >= newNum) {
+
+        s()
+
+        mahcineInfo.isEnd = true;
+        // 到达一定的值就清空定时器
+        // 当走完过后复位原点
+        model.timer && clearInterval(model.timer);
+
+        model.timer = null;
+
+      }
+    }, 16);
   }
 
   // 设置路线---点
@@ -299,67 +329,6 @@ class MoveMachine {
       });
       this.roadMap[i]["spot"] = array;
     });
-  }
-
-  // 开始行走
-  setMove(id, type, location) {
-    // 刷新数据和线段
-    this.refreshData(id);
-
-    const model = this.addModel(id, type);
-    // 清除对应的定时器
-    this.clearTimer(model);
-    // 去除要走的线位置
-    let temporaryArray = [...this.roadMap[location]["spot"]];
-    // 存储  模型的位置
-    const savePosition = model.savePosition;
-
-    // 第一次必须要立刻进入路线
-    if (!this.isCloneFirstMap[id]) {
-      this.isCloneFirstMap[id] = id;
-    } else {
-      temporaryArray.unshift(
-        new THREE.Vector3(
-          (savePosition && savePosition.x) || model.position.x,
-          (savePosition && savePosition.y) || model.position.y,
-          (savePosition && savePosition.z) || model.position.z
-        )
-      );
-    }
-
-    const { curve } = this.getCurve(temporaryArray, true);
-
-    temporaryArray = [];
-
-    // 基本信息
-    const lineInfo = {
-      id,
-      model,
-      location,
-      curve,
-    };
-
-    const mahcineInfo = this.setLine(lineInfo);
-
-    // 移动
-    this.move(mahcineInfo);
-  }
-
-  // 清除定时器
-  clearTimer(model) {
-    clearInterval(model.timer);
-  }
-
-  // 刷新数据
-  refreshData(id) {
-    Object.values(this.roadMap).map((i) => {
-      const machine = i.machine;
-      if (!machine.includes(id)) return;
-      const index = machine.indexOf(id);
-      machine.splice(index, 1);
-    });
-
-    // this.clearLine();
   }
 
   // 添加模型至场景
@@ -391,7 +360,7 @@ class MoveMachine {
   // 生成线
   setLine(lineInfo) {
     // 设备id 模型 地址
-    const { id, model, location, curve } = lineInfo;
+    const { id, model, location, curve, isEnd } = lineInfo;
 
     const { machine } = this.roadMap[location];
 
@@ -407,8 +376,24 @@ class MoveMachine {
       num,
       curve,
       percent,
+      isEnd
     };
     return mahcineInfo;
+  }
+  // 清除定时器
+  clearTimer(model) {
+    clearInterval(model.timer);
+  }
+
+  // 刷新数据
+  refreshData(id) {
+    Object.values(this.roadMap).map((i) => {
+      const machine = i.machine;
+      if (!machine.includes(id)) return;
+      const index = machine.indexOf(id);
+      machine.splice(index, 1);
+    });
+    // this.clearLine();
   }
 
   // 清除线
@@ -419,47 +404,6 @@ class MoveMachine {
     this.savedRoutes = [];
   }
 
-  // 移动
-  move(mahcineInfo) {
-    let { model, num, curve, percent } = mahcineInfo;
-
-    let newNum = num == 1 ? 0.95 : 1 - 1 / num;
-
-    const length = curve.getLength();
-
-    let speed = 0.01;
-
-    if (!this.isFrist) {
-      this.isFrist = true;
-      this.firstLength = length;
-    }
-
-    let dySpeed = this.firstLength / curve.getLength() * speed;
-
-    model.timer = setInterval(() => {
-
-      // 模型的朝向
-      model.lookAt(curve.getPointAt(percent));
-      // 模型的位置
-      model.position.set(
-        curve.getPointAt(percent).x,
-        curve.getPointAt(percent).y,
-        curve.getPointAt(percent).z
-      );
-      // 模型的进度
-      percent += dySpeed;
-
-      model.savePosition = curve.getPointAt(percent);
-
-      if (percent >= newNum) {
-        // 到达一定的值就清空定时器
-        // 当走完过后复位原点
-        model.timer && clearInterval(model.timer);
-
-        model.timer = null;
-      }
-    }, 16);
-  }
 
   getNamesByNum(baseName, length, beginNum = 1, endName) {
     return new Array(length).fill("").map((_, index) => {

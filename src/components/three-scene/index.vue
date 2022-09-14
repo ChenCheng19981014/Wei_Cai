@@ -34,7 +34,7 @@ export default {
     // 加载场景
     loadScene() {
       this.runScene = new RunScene({
-        // path: "./assets/scene.glb",
+        // path: "./assets/s.glb",
         // path: "http://192.168.3.8:8080/file?path=project/linkpoint/&key=202205311024313282651001202252",
         path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
         rootDom: this.$refs["three-scene"],
@@ -47,9 +47,6 @@ export default {
             //   open: true,
             //   IntervalTime: 16.6,
             // },
-          },
-          msg: {
-            show: true,
           },
           /**
             msg?: {
