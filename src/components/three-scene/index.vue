@@ -33,13 +33,10 @@ export default {
   methods: {
     // 加载场景
     loadScene() {
-      // const sceneKey = "202205311024313282651001202252";
       this.runScene = new RunScene({
-        path: "./assets/scene.glb",
-        // path:
-        //   "http://192.168.3.8:8080/file?path=project/linkpoint/&key=" +
-        //   sceneKey,
-        // path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
+        // path: "./assets/scene.glb",
+        // path: "http://192.168.3.8:8080/file?path=project/linkpoint/&key=202205311024313282651001202252",
+        path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
         rootDom: this.$refs["three-scene"],
         options: {
           // render2: true,
@@ -94,7 +91,7 @@ export default {
       }).on("complete", () => {
         console.log("场景加载结束");
       });
-      // this.change = new Change(this.runScene);
+      this.change = new Change(this.runScene);
     },
 
     // 测试模型移动

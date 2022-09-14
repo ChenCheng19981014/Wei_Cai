@@ -151,11 +151,11 @@ class MoveMachine {
 
     await this.testMove(() => { this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
 
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST03-ST04"), this.setMove("id2", "ydj", "ST06-ST07"), this.setMove('id3', 'ydj', "ST06-ST07") }, 4000)
 
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08") }, 2000)
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08") }, 5000)
 
-    await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09") }, 2000)
+    await this.testMove(() => { this.setMove("id1", "ydj", "ST08-ST09") }, 5000)
 
     await this.testMove(() => { this.setMove("id2", "ydj", "ST07-ST08") }, 2000)
 
@@ -194,6 +194,9 @@ class MoveMachine {
     await this.testMove(() => { this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
     await this.testMove(() => { this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
+
+
+    //-----------------------------------------------
 
 
     // await this.testMove(() => { this.setMove("id1", "ydj", "ST04-ST08"), this.setMove("id2", "ydj", "ST07-ST08"), this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
@@ -274,6 +277,7 @@ class MoveMachine {
       let timer = setTimeout(() => {
         fn && fn();
         s() && timer && clearTimeout(timer);
+        console.log('走走~~~');
       }, time);
     })
   }
@@ -607,40 +611,10 @@ class Events {
 
   controlStart = () => {
     // 关闭其他动画
-    this.stopMove();
     this.closeAnmia();
   };
-  stopMove = () => {
-    let cameraPosition = camera.position;
-    let dis = cameraPosition.distanceTo({
-      x: -4643.506266677469,
-      y: 1272.526953431848,
-      z: 339.0845639528666
-    });
-    if (dis >= 10000) {
-      controls.enablePan = false;
-      // 1.5秒后恢复
-      Utils.getMacro(() => {
-        // 重新恢复至初始视角动静
-        t.runScene.modelEx.camAnima(
-          t.runScene.modelEx.getCamLocal(), {
-          cx: -5013.515237318247,
-          cy: 3245.588404416484,
-          cz: -8036.278141760255,
-          tx: -4681.286120950418,
-          ty: 288.1998663090785,
-          tz: -3353.178373424808,
-        },
-          1.5
-        );
-        // 可以进行右键移动
-        controls.enablePan = true;
-      }, 1500);
-    } else {
-      // 可以进行右键移动
-      controls.enablePan = true;
-    }
-  };
+
+
   closeAnmia() {
     Object.values(this.closeAnimaAtStart).map(
       (item) =>
