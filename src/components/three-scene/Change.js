@@ -10,6 +10,9 @@ import { Utils } from "run-scene-v2";
 import bus from "./Bus";
 import * as THREE from "three";
 import RoadMap from "./const";
+// 导入toRaw函数
+import { toRaw } from "@vue/reactivity";
+
 // 声明变量
 let camera, scene, controls, renderer2, renderer, dom, t, p, runScene, Bus;
 // 工具
@@ -59,6 +62,14 @@ function Change(runScene) {
 
     this.moveMachine.init();
 
+    this.sceneSprite = new SceneSprite();
+
+    this.sceneSprite.init();
+
+    this.cameraAnima = new CameraAnima();
+
+    this.cameraAnima.init();
+
     // 最小距离
     controls.minDistance = 110;
     // // 最大距离
@@ -68,17 +79,14 @@ function Change(runScene) {
     controls.screenSpacePanning = false;
 
     // 入场动画
-    t.events.cameraFoucs(
-      {
-        cx: -5013.515237318247,
-        cy: 3245.588404416484,
-        cz: -8036.278141760255,
-        tx: -4681.286120950418,
-        ty: 288.1998663090785,
-        tz: -3353.178373424808,
-      },
-      1
-    );
+    // t.events.cameraFoucs(
+    //   {
+    //     cx: 1208.6682842150653, cy: 6552.805100037871, cz: 610.91451399788, tx: -3678.4371053911896, ty: 288.199866, tz: 665.9083381883736
+    //   },
+    //   1
+    // );
+
+    t.runScene.cameraEx.setTemp("初始", { time: 2 });
   });
 
   // 模型特殊处理 加载初始不显示
@@ -123,7 +131,9 @@ class MoveMachine {
 
   isFrist = false;
 
-  moveSpeed = 0.01
+  moveSpeed = 0.01;
+
+  isGoing = true;
 
   init() {
     // t.runScene.modelEx.getModel('缩放层').visible = false;
@@ -140,66 +150,135 @@ class MoveMachine {
 
   // 临时测试机器移动
   async testMahcineMove() {
+    if (!this.isGoing) return;
+
+    this.isGoing = false;
 
     await this.testMove(async () => {
-      await this.setMove("id2", "ydj", "ST01-ST05")
-    })
+      await this.setMove("id2", "ydj", "ST01-ST05");
+    });
 
     // await this.testMove(async () => { await this.setMove("id1", "ydj", "ST01-ST02"), await this.setMove("id3", "ydj", "ST01-ST05") })
 
-    await this.testMove(async () => { await Promise.all([this.setMove("id1", "ydj", "ST01-ST02"), this.setMove("id3", "ydj", "ST01-ST05")]) })
+    await this.testMove(async () => {
+      await Promise.all([
+        this.setMove("id1", "ydj", "ST01-ST02"),
+        this.setMove("id3", "ydj", "ST01-ST05"),
+      ]);
+    });
 
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST05-ST06");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST05-ST06") }, 2000)
-
-    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST05-ST06") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id3", "ydj", "ST05-ST06");
+    }, 2000);
 
     // await this.testMove(async () => { await this.setMove("id1", "ydj", "ST03-ST04"), await this.setMove("id2", "ydj", "ST06-ST07"), await this.setMove('id3', 'ydj', "ST06-ST07") }, 2000)
 
-    await this.testMove(async () => { await Promise.all([this.setMove("id1", "ydj", "ST03-ST04"), await this.setMove("id2", "ydj", "ST06-ST07"), await this.setMove('id3', 'ydj', "ST06-ST07")]) }, 2000)
+    await this.testMove(async () => {
+      await Promise.all([
+        this.setMove("id1", "ydj", "ST03-ST04"),
+        await this.setMove("id2", "ydj", "ST06-ST07"),
+        await this.setMove("id3", "ydj", "ST06-ST07"),
+      ]);
+    }, 2000);
 
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST04-ST08");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST04-ST08") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST08-ST09");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST08-ST09") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST07-ST08");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST07-ST08") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST09-ST10");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST09-ST10") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id3", "ydj", "ST07-ST08");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST07-ST08") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST08-ST09");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST08-ST09") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST10-ST11");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST10-ST11") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id3", "ydj", "ST08-ST09");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST08-ST09") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST09-ST10");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST09-ST10") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST11-ST12");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST11-ST12") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id3", "ydj", "ST09-ST10");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove('id3', 'ydj', "ST09-ST10") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST10-ST11");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST10-ST11") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST12-ST13");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST12-ST13") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id2", "ydj", "ST11-ST12");
+    }, 2000);
 
-    await this.testMove(async () => { await this.setMove("id2", "ydj", "ST11-ST12") }, 2000)
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST13-ST14");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST14-ST15");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST15-ST16");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST16-ST17");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST17-ST18");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST18-ST19");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST19-ST20");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST20-ST21");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST21-ST22");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST22-ST23");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST23-ST24");
+    }, 2000);
+    await this.testMove(async () => {
+      await this.setMove("id1", "ydj", "ST24-ST25");
+    }, 2000);
 
-
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST13-ST14") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST14-ST15") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST15-ST16") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST16-ST17") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST17-ST18") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST18-ST19") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST19-ST20") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST20-ST21") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST21-ST22") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST22-ST23") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST23-ST24") }, 2000)
-    await this.testMove(async () => { await this.setMove("id1", "ydj", "ST24-ST25") }, 2000)
+    this.isGoing = true;
   }
 
   // 测试使用
@@ -210,13 +289,11 @@ class MoveMachine {
         await s();
         timer && clearTimeout(timer);
       }, time);
-    })
+    });
   }
-
 
   // 开始行走
   setMove(id, type, location) {
-
     return new Promise((s) => {
       // 刷新数据和线段
       this.refreshData(id);
@@ -252,16 +329,15 @@ class MoveMachine {
         model,
         location,
         curve,
-        isEnd: false
+        isEnd: false,
       };
 
       let mahcineInfo = this.setLine(lineInfo);
 
       // 移动
       this.move(mahcineInfo, s);
-    })
+    });
   }
-
 
   // 移动
   move(mahcineInfo, s) {
@@ -278,10 +354,9 @@ class MoveMachine {
       this.firstLength = length;
     }
 
-    let dySpeed = this.firstLength / curve.getLength() * speed;
+    let dySpeed = (this.firstLength / curve.getLength()) * speed;
 
     model.timer = setInterval(() => {
-
       // 模型的朝向
       model.lookAt(curve.getPointAt(percent));
       // 模型的位置
@@ -298,8 +373,7 @@ class MoveMachine {
       // console.log(percent, 'percent');
 
       if (percent >= newNum) {
-
-        s()
+        s();
 
         mahcineInfo.isEnd = true;
         // 到达一定的值就清空定时器
@@ -307,7 +381,6 @@ class MoveMachine {
         model.timer && clearInterval(model.timer);
 
         model.timer = null;
-
       }
     }, 16);
   }
@@ -376,7 +449,7 @@ class MoveMachine {
       num,
       curve,
       percent,
-      isEnd
+      isEnd,
     };
     return mahcineInfo;
   }
@@ -403,7 +476,6 @@ class MoveMachine {
     });
     this.savedRoutes = [];
   }
-
 
   getNamesByNum(baseName, length, beginNum = 1, endName) {
     return new Array(length).fill("").map((_, index) => {
@@ -460,6 +532,50 @@ class MoveMachine {
 
     line.visible = true;
     return { line, curve };
+  }
+}
+
+// 相机动画
+class CameraAnima {
+  init() { }
+  anima(name) {
+    // t.runScene.cameraEx.setTemp(animaName, { time: 1, onComplete: () => { } });
+    t.runScene.timeLineEx.playGroup(name);
+
+
+    console.log('name:', name);
+  }
+}
+
+// 精灵图
+class SceneSprite {
+  spriteModelMap = {
+    transparent: {},
+    actual: {},
+  };
+  init() {
+    this.getSpriteModel();
+  }
+
+  async getSpriteModel() {
+    t.runScene.tags.get("透明").map((i) => {
+      let model = t.runScene.modelEx.getById(i);
+      this.spriteModelMap.transparent[i] = model;
+    });
+
+    t.runScene.tags.get("实际").map((i) => {
+      let model = t.runScene.modelEx.getById(i);
+      this.spriteModelMap.actual[i] = model;
+    });
+  }
+  // 切换标签
+  switchLabel(isShow) {
+    Object.values(this.spriteModelMap.transparent).map(
+      (model) => (model.visible = isShow)
+    );
+    Object.values(this.spriteModelMap.actual).map(
+      (model) => (model.visible = !isShow)
+    );
   }
 }
 
@@ -545,7 +661,6 @@ class Events {
   triggerClick = (e) => {
     const model = t.runScene.modelEx.select;
     if (!model) return;
-    bus.emit("logClickModel", model);
 
     console.log(
       `cx:${camera.position.x}, cy:${camera.position.y}, cz:${camera.position.z}, tx:${controls.target.x}, ty:${controls.target.y}, tz:${controls.target.z} `,
@@ -557,7 +672,6 @@ class Events {
     // 关闭其他动画
     this.closeAnmia();
   };
-
 
   closeAnmia() {
     Object.values(this.closeAnimaAtStart).map(
@@ -573,8 +687,6 @@ class Events {
     controls.removeEventListener("start", this.controlStart);
   }
 }
-
-
 
 export default Change;
 

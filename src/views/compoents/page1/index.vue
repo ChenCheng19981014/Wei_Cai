@@ -1,14 +1,13 @@
 <template>
-  <div class="view">
-    <three-scene></three-scene>
+  <div class="page-1">
+    <Scene1></Scene1>
   </div>
 </template>
 <script>
-import ThreeScene from "../../components/three-scene";
-
+import Scene1 from "./../../../../src/components/scene-1/index.vue";
 export default {
   components: {
-    ThreeScene,
+    Scene1,
   },
   data() {
     return {};
@@ -17,8 +16,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.view {
+.page-1 {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 </style>

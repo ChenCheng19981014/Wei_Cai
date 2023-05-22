@@ -10,6 +10,20 @@
       class="btn"
     >
       <button @click="testMahcineMove">机器移动测试按钮</button>
+
+      <div
+        v-for="(i, _) in [
+          '水分烘干工位',
+          '前处理工位',
+          '1喷漆室',
+          '2喷漆室',
+          '面漆烘干',
+        ]"
+      >
+        <button @click="cameraAnima(i)">相机动画{{ i }}</button>
+      </div>
+
+      <!-- <button @click="switchSprite">切换看牌</button> -->
     </div>
   </div>
 </template>
@@ -24,6 +38,7 @@ export default {
       change: null,
       runScene: null,
       Bus: bus,
+      isShowSprite: false,
     };
   },
   mounted() {
@@ -34,60 +49,30 @@ export default {
     // 加载场景
     loadScene() {
       this.runScene = new RunScene({
-        // path: "./assets/s.glb",
-        // path: "http://192.168.3.8:8080/file?path=project/linkpoint/&key=202205311024313282651001202252",
-        path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
-        rootDom: this.$refs["three-scene"],
-        options: {
-          // render2: true,
-          // render3: true,
-          texture: {
-            // load: false,
-            // lazyload: {
-            //   open: true,
-            //   IntervalTime: 16.6,
-            // },
-          },
-          /**
-            msg?: {
-            是否显示打印，默认显示
-              show: boolean = true
-             显示打印的等级 默认显示基础打印
-              level: "base" | 'detail' =  base
-              }
-             是否渲染
-              run?: boolean = true
-             decode 的路径
-              decodePath?: string = ./draco/
-             是否显示fps 默认关
-              showFps?: boolean = false
-             是否延迟加载 默认不延迟
-              loadInterval?: number = 0
-             模式 默认运行模式
-              mode?: 'editor' | 'debug' | 'running' = 'running
-             texture?:{
-             是否加载贴图
-               load?:boolean = true
-               lazyload?:{
-             是否懒加载贴图 默认是
-                 open?:boolean = false,
-             懒加载的时间区间 默认为16.0ms
-                 IntervalTime?:number = 16.6
-              },
-             贴图质量 可大幅度降低显存占用 0-1 之间
-              quality?:number = 1
-             }
-             是否加载实例后的模型 节省性能 默认关闭
-              instanceClone?: boolean =false
-             2drenderer
-              render2?: boolean = false
-             3drenderer
-              render3?: boolean, = false
-               */
+        msg: {
+          // show: true,
         },
-      }).on("complete", () => {
-        console.log("场景加载结束");
-      });
+        // showFps: true,
+        coverSameId: true,
+        instanceClone: false,
+        render3: true,
+        render2: true,
+        renderConfig: {
+          // 是否允许设置模型位置后自动渲染最新效果
+          matrixAutoUpdate: true,
+          scriptFrame: 60,
+        },
+      })
+        .load({
+          // path: "./assets/scene.glb",
+          path: "https://linktwins-1303915342.cos.ap-shanghai.myqcloud.com/weicai/scene.glb",
+          // path: "https://test2-1303915342.cos.ap-shanghai.myqcloud.com/WeiCai/scene.glb",
+          // path: "http://192.168.3.8:8080/file?path=project/linkpoint/&key=202301161055066763391001202316",
+          dom: this.$refs["three-scene"],
+        })
+        .on("complete", () => {
+          console.log("场景加载结束");
+        });
       this.change = new Change(this.runScene);
     },
 
@@ -97,9 +82,13 @@ export default {
       this.change.moveMachine.testMahcineMove();
     },
 
-    // 打印点击到的模型
-    logClickModel(model) {
-      console.log("点击的模型为:", model.name);
+    switchSprite() {
+      this.isShowSprite = !this.isShowSprite;
+      this.change.sceneSprite.switchLabel(this.isShowSprite);
+    },
+    // 相机动画
+    cameraAnima(name) {
+      this.change.cameraAnima.anima(name);
     },
 
     onDone() {
@@ -123,6 +112,7 @@ export default {
     z-index: 3;
     position: absolute;
   }
+
   .oth {
     position: absolute;
     z-index: 2;
